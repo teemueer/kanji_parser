@@ -84,14 +84,29 @@ def parse_kradfile():
     for line in read_lines('kradfile', 'euc-jp'):
         kanji, parts = line.split(' : ')
         cur.execute(sql, (parts.replace(' ', ''), ord(kanji)))
-            
-con = sqlite3.connect(filepath)
+        
+def parse_edict():
+    for line in read_lines('edict', 'euc-jp'):
+        data = re.search(r'(.*) \[(.*)\] \/(.*)', line)
+        if data:
+            word    = data.group(1)
+            reading = data.group(2)
+            meaning = data.group(3)
+            sql = 'insert into words (word, reading, meaning) values (?, ?, ?)'
+            cur.execute(sql, (word, reading, meaning))
+        
+con = sqlite3.connect('D:\programs\EasyPHP\eds-www\kanji\kanji.sqlite')
 cur = con.cursor()
 cur.executescript(open('tables.sql', 'r').read())
 
-parse_jis()         
+parse_jis()
+print 'jis parsed'
 parse_kanjidic()
+print 'kanjidic parsed'
 parse_kradfile()
+print 'kradfile parsed'
+parse_edict()
+print 'edict parsed'
 
 con.commit()
 con.close()
