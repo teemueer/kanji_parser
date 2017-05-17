@@ -42,3 +42,10 @@ create table if not exists kunyomi (
     uni     int,
     kunyomi text
 );
+
+create table if not exists words (
+    id      integer primary key autoincrement,
+    word    text,
+    reading text,
+    meaning text
+)

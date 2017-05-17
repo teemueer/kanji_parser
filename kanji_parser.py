@@ -95,18 +95,14 @@ def parse_edict():
             sql = 'insert into words (word, reading, meaning) values (?, ?, ?)'
             cur.execute(sql, (word, reading, meaning))
         
-con = sqlite3.connect('D:\programs\EasyPHP\eds-www\kanji\kanji.sqlite')
+con = sqlite3.connect('kanji.sqlite')
 cur = con.cursor()
 cur.executescript(open('tables.sql', 'r').read())
 
 parse_jis()
-print 'jis parsed'
 parse_kanjidic()
-print 'kanjidic parsed'
 parse_kradfile()
-print 'kradfile parsed'
 parse_edict()
-print 'edict parsed'
 
 con.commit()
 con.close()
