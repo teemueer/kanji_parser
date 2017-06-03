@@ -4,5 +4,3 @@
   - kanjidic
   - kradfile
   - edict
-
-Example @ http://huvitus.dy.fi/kanji/
